@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/deals_react_app/static/css/main.3b0bb17c.css",
+    "main.js": "/deals_react_app/static/js/main.7f5b81fd.js",
+    "static/js/488.6254b9d1.chunk.js": "/deals_react_app/static/js/488.6254b9d1.chunk.js",
+    "index.html": "/deals_react_app/index.html",
+    "main.3b0bb17c.css.map": "/deals_react_app/static/css/main.3b0bb17c.css.map",
+    "main.7f5b81fd.js.map": "/deals_react_app/static/js/main.7f5b81fd.js.map",
+    "488.6254b9d1.chunk.js.map": "/deals_react_app/static/js/488.6254b9d1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3b0bb17c.css",
+    "static/js/main.7f5b81fd.js"
+  ]
+}
