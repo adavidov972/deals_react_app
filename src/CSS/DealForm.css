@@ -1,0 +1,228 @@
+כלול את הסטיילים הכלליים
+.deal-form-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.left-column {
+  width: 40%;
+  padding-right: 20px;
+}
+
+.right-column {
+  width: 55%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input,
+form select,
+form textarea {
+  margin: 10px 0;
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* טבלאות המוכרים והקונים */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  text-align: center;
+}
+
+.checkbox-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* עיצוב הכפתור */
+button {
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section Titles */
+h2 {
+  margin-top: 20px;
+  color: #333;
+  font-size: 1.5em;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+/* Labels and Inputs */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+}
+
+button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #007bff;
+  color: #fff;
+  text-align: start;
+}
+
+table td {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+  background-color: #f4f4f9;
+}
+
+/* Section Layout */
+.general-info,
+.sellers-section,
+.buyers-section {
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #28a745;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
