@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, fetchAllUserDealsFromServer, logoutUserFromFirebase } from "../firebase";
+import { auth, db, fetchAllUserDealsFromServer } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import {Button, Table, TableHead, TableRow, TableCell, TableBody, Box, IconButton} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MenuIcon from "@mui/icons-material/Menu";
 import { formatDateToDashboardList } from "../utils/DateUtils";
+import MainBarApp from "./MainAppBar";
 
 // ייצור RTL
 const theme = createTheme({
@@ -30,7 +16,6 @@ const theme = createTheme({
 
 function Dashboard() {
   const [deals, setDeals] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null); // לניהול תפריט ההמבורגר
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,11 +34,7 @@ function Dashboard() {
     // eslint-disable-next-line
   }, []);
 
-  const handleLogout = async () => {
-    await logoutUserFromFirebase()
-    window.location.href = "/";
-  };
-
+  
   const handleRowClick = (dealId) => {
     navigate(`/deal/${dealId}`);
   };
@@ -99,16 +80,7 @@ function Dashboard() {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ש״ח`;
   };
 
-  // פתיחה וסגירה של תפריט ההמבורגר
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleNewDealClick = () => {
+    const handleNewDealClick = () => {
     navigate("/deal");
   };
 
@@ -123,40 +95,7 @@ function Dashboard() {
           width: "100%",
         }}
       >
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
-              רשימת עסקאות
-            </Typography>
-            {/* כפתור תפריט המבורגר */}
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenuOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={handleLogout}>יציאה</MenuItem>
-            </Menu>
-          </Toolbar>
-        </AppBar>
+        <MainBarApp headerText={"רשימת עסקאות"}/>
 
         <Box mt={4} display="flex" justifyContent="flex-end">
           {/* כפתור עסקה חדשה */}

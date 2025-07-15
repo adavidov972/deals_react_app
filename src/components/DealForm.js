@@ -9,6 +9,7 @@ import {
   updateDealOnServer,
 } from "../firebase";
 import { formatDateToDealForm } from "../utils/DateUtils";
+import MainBarApp from "./MainAppBar";
 
 const DealForm = () => {
   const { dealId } = useParams();
@@ -85,6 +86,7 @@ const DealForm = () => {
       PARTS_TO_TRANSFER: formRef.current.parts.value,
       SELLERS_DICT: [],
       BUYERS_DICT: [],
+      DESCRIPTION: "כמפורט בפנקס הבתים המשותפים",
     };
 
     // Collect seller and buyer data
@@ -132,7 +134,7 @@ const DealForm = () => {
 
       dealPayload["CONTRACT_DATE"] = new Date(dealPayload["CONTRACT_DATE"])
       const serverUrl = "https://adavidov.pythonanywhere.com/create"
-      const myUrl = "http://127.0.0.1:5000/create"
+      //const serverUrl = "http://127.0.0.1:5000/create"
 
       if (result.isConfirmed) {
         const { value: email } = await Swal.fire({
@@ -261,68 +263,73 @@ const DealForm = () => {
 
   // Render sellers input table
   const renderSellers = () => {
-    return Array.from({ length: numSellers }).map((_, i) => (
-      <tr key={`seller_${i}`}>
-        <td>
-          <input
-            type="text"
-            name={`seller_last_name_${i}`}
-            ref={(el) => (formRef.current[`seller_last_name_${i}`] = el)}
-            defaultValue={dealData?.SELLERS_DICT?.[i]?.LAST_NAME || ""}
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            name={`seller_first_name_${i}`}
-            ref={(el) => (formRef.current[`seller_first_name_${i}`] = el)}
-            defaultValue={dealData?.SELLERS_DICT?.[i]?.FIRST_NAME || ""}
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            name={`seller_id_kind_${i}`}
-            ref={(el) => (formRef.current[`seller_id_kind_${i}`] = el)}
-            defaultValue={dealData?.SELLERS_DICT?.[i]?.ID_KIND || ""}
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            name={`seller_id_${i}`}
-            ref={(el) => (formRef.current[`seller_id_${i}`] = el)}
-            defaultValue={dealData?.SELLERS_DICT?.[i]?.ID || ""}
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            name={`seller_parts_${i}`}
-            ref={(el) => (formRef.current[`seller_parts_${i}`] = el)}
-            defaultValue={dealData?.SELLERS_DICT?.[i]?.PARTS || ""}
-          />
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            name={`seller_is_firm_${i}`}
-            ref={(el) => (formRef.current[`seller_is_firm_${i}`] = el)}
-            defaultChecked={dealData?.SELLERS_DICT?.[i]?.IS_FIRM || false}
-          />
-        </td>
-        {/* <td>
-          <button
-          type="button"
-            onClick={() => handleDeleteSeller(i)}
-            className="text-red-600 font-bold hover:underline"
-          >
-            X
-          </button>
-        </td> */}
-      </tr>
-    ));
-  };
+    return (
+      <>
+        {Array.from({ length: numSellers }).map((_, i) => (
+          <tr key={`seller_${i}`}>
+            <td>
+              <input
+                type="text"
+                name={`seller_last_name_${i}`}
+                ref={(el) => (formRef.current[`seller_last_name_${i}`] = el)}
+                defaultValue={dealData?.SELLERS_DICT?.[i]?.LAST_NAME || ""}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name={`seller_first_name_${i}`}
+                ref={(el) => (formRef.current[`seller_first_name_${i}`] = el)}
+                defaultValue={dealData?.SELLERS_DICT?.[i]?.FIRST_NAME || ""}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name={`seller_id_kind_${i}`}
+                ref={(el) => (formRef.current[`seller_id_kind_${i}`] = el)}
+                defaultValue={dealData?.SELLERS_DICT?.[i]?.ID_KIND || ""}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name={`seller_id_${i}`}
+                ref={(el) => (formRef.current[`seller_id_${i}`] = el)}
+                defaultValue={dealData?.SELLERS_DICT?.[i]?.ID || ""}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name={`seller_parts_${i}`}
+                ref={(el) => (formRef.current[`seller_parts_${i}`] = el)}
+                defaultValue={dealData?.SELLERS_DICT?.[i]?.PARTS || ""}
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                name={`seller_is_firm_${i}`}
+                ref={(el) => (formRef.current[`seller_is_firm_${i}`] = el)}
+                defaultChecked={dealData?.SELLERS_DICT?.[i]?.IS_FIRM || false}
+              />
+            </td>
+            {/* <td>
+            <button
+            type="button"
+              onClick={() => handleDeleteSeller(i)}
+              className="text-red-600 font-bold hover:underline"
+            >
+              X
+            </button>
+          </td> */}
+          </tr>
+        ))}
+      </>
+
+    )
+  }
 
   // Render buyers input table
   const renderBuyers = () => {
@@ -381,261 +388,264 @@ const DealForm = () => {
   };
 
   return (
-    <form onSubmit={handleSave}>
-      <h1>{dealId ? "עריכת פרטי עסקה" : "יצירת עסקה חדשה"}</h1>
-      {/* General Deal Information */}
-      <div className="general-info">
-        <label>
-          גוש:
-          <input
-            type="text"
-            name="block"
-            ref={(el) => (formRef.current.block = el)}
-            defaultValue={dealData.BLOCK || ""}
-          />
-        </label>
-        <label>
-          חלקה:
-          <input
-            type="text"
-            name="parcel"
-            ref={(el) => (formRef.current.parcel = el)}
-            defaultValue={dealData.PARCEL || ""}
-          />
-        </label>
-        <label>
-          תת חלקה:
-          <input
-            type="text"
-            name="sub_parcel"
-            ref={(el) => (formRef.current.sub_parcel = el)}
-            defaultValue={dealData.SUB_PARCEL || ""}
-          />
-        </label>
-        <label>
-          שטח רשום:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.area = el)}
-            defaultValue={dealData.AREA || ""}
-          />
-        </label>
-        <label>
-          כתובת:
-          <input
-            type="text"
-            name="address"
-            ref={(el) => (formRef.current.address = el)}
-            defaultValue={dealData.ADDRESS || ""}
-          />
-        </label>
-        <label>
-          עיר:
-          <input
-            type="text"
-            name="city"
-            ref={(el) => (formRef.current.city = el)}
-            defaultValue={dealData.CITY || ""}
-          />
-        </label>
-        <label>
-          תאריך חוזה:
-          <input
-            type="date"
-            name="contract_date"
-            ref={(el) => (formRef.current.contract_date = el)}
-            defaultValue={formatDateToDealForm(dealData.CONTRACT_DATE) || ""}
-          />
-        </label>
-        <label>
-          מחיר:
-          <input
-            type="number"
-            name="price"
-            ref={(el) => (formRef.current.price = el)}
-            defaultValue={dealData.PRICE || ""}
-          />
-        </label>
-        <label>
-          טאבו:
-          <select
-            name="tabu"
-            ref={(el) => (formRef.current.tabu = el)}
-            defaultValue={dealData.TABU || ""}
-          >
-            {tabuOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          סוג זכויות:
-          <input
-            type="text"
-            name="rights_kind"
-            ref={(el) => (formRef.current.rights_kind = el)}
-            defaultValue={dealData.RIGHTS_KIND || ""}
-          />
-        </label>
-        <label>
-          מס שבח:
-          <select
-            name="tax_office"
-            ref={(el) => (formRef.current.tax_office = el)}
-            defaultValue={dealData.TAX_OFFICE || ""}
-          >
-            {taxOfficeOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          פטור:
-          <select
-            name="ptor"
-            ref={(el) => (formRef.current.ptor = el)}
-            defaultValue={dealData.PTOR || ""}
-          >
-            {ptorOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          ב״כ המוכרים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.sellers_advocate = el)}
-            defaultValue={dealData.SELLER_ADVOCATE || ""}
-          />
-        </label>
-        <label>
-          עו״ד מאמת המוכרים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.sellers_imut = el)}
-            defaultValue={dealData.SELLER_IMUT || ""}
-          />
-        </label>
-        <label>
-          מס׳ רישיון מאמת המוכרים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.sellers_license = el)}
-            defaultValue={dealData.SELLER_LICENSE || ""}
-          />
-        </label>
-        <label>
-          ב״כ הקונים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.buyers_advocate = el)}
-            defaultValue={dealData.BUYER_ADVOCATE || ""}
-          />
-        </label>
-        <label>
-          עו״ד מאמת הקונים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.buyers_imut = el)}
-            defaultValue={dealData.BUYER_IMUT || ""}
-          />
-        </label>
-        <label>
-          מס׳ רישיון מאמת הקונים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.buyers_license = el)}
-            defaultValue={dealData.BUYER_LICENSE || ""}
-          />
-        </label>
-        <label>
-          חלקים מועברים:
-          <input
-            type="text"
-            name="area"
-            ref={(el) => (formRef.current.parts = el)}
-            defaultValue={dealData.PARTS_TO_TRANSFER || ""}
-          />
-        </label>
-      </div>
+    <>
+    <MainBarApp headerText={`גוש : ${dealData.BLOCK} חלקה : ${dealData.PARCEL} || רח׳ ${dealData.ADDRESS} ${dealData.CITY}`}/>
+      <form onSubmit={handleSave}>
+        <h1>{dealId ? "עריכת פרטי עסקה" : "יצירת עסקה חדשה"}</h1>
+        {/* General Deal Information */}
+        <div className="general-info">
+          <label>
+            גוש:
+            <input
+              type="text"
+              name="block"
+              ref={(el) => (formRef.current.block = el)}
+              defaultValue={dealData.BLOCK || ""}
+            />
+          </label>
+          <label>
+            חלקה:
+            <input
+              type="text"
+              name="parcel"
+              ref={(el) => (formRef.current.parcel = el)}
+              defaultValue={dealData.PARCEL || ""}
+            />
+          </label>
+          <label>
+            תת חלקה:
+            <input
+              type="text"
+              name="sub_parcel"
+              ref={(el) => (formRef.current.sub_parcel = el)}
+              defaultValue={dealData.SUB_PARCEL || ""}
+            />
+          </label>
+          <label>
+            שטח רשום:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.area = el)}
+              defaultValue={dealData.AREA || ""}
+            />
+          </label>
+          <label>
+            כתובת:
+            <input
+              type="text"
+              name="address"
+              ref={(el) => (formRef.current.address = el)}
+              defaultValue={dealData.ADDRESS || ""}
+            />
+          </label>
+          <label>
+            עיר:
+            <input
+              type="text"
+              name="city"
+              ref={(el) => (formRef.current.city = el)}
+              defaultValue={dealData.CITY || ""}
+            />
+          </label>
+          <label>
+            תאריך חוזה:
+            <input
+              type="date"
+              name="contract_date"
+              ref={(el) => (formRef.current.contract_date = el)}
+              defaultValue={formatDateToDealForm(dealData.CONTRACT_DATE) || ""}
+            />
+          </label>
+          <label>
+            מחיר:
+            <input
+              type="number"
+              name="price"
+              ref={(el) => (formRef.current.price = el)}
+              defaultValue={dealData.PRICE || ""}
+            />
+          </label>
+          <label>
+            טאבו:
+            <select
+              name="tabu"
+              ref={(el) => (formRef.current.tabu = el)}
+              defaultValue={dealData.TABU || ""}
+            >
+              {tabuOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            סוג זכויות:
+            <input
+              type="text"
+              name="rights_kind"
+              ref={(el) => (formRef.current.rights_kind = el)}
+              defaultValue={dealData.RIGHTS_KIND || ""}
+            />
+          </label>
+          <label>
+            מס שבח:
+            <select
+              name="tax_office"
+              ref={(el) => (formRef.current.tax_office = el)}
+              defaultValue={dealData.TAX_OFFICE || ""}
+            >
+              {taxOfficeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            פטור:
+            <select
+              name="ptor"
+              ref={(el) => (formRef.current.ptor = el)}
+              defaultValue={dealData.PTOR || ""}
+            >
+              {ptorOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            ב״כ המוכרים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.sellers_advocate = el)}
+              defaultValue={dealData.SELLER_ADVOCATE || ""}
+            />
+          </label>
+          <label>
+            עו״ד מאמת המוכרים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.sellers_imut = el)}
+              defaultValue={dealData.SELLER_IMUT || ""}
+            />
+          </label>
+          <label>
+            מס׳ רישיון מאמת המוכרים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.sellers_license = el)}
+              defaultValue={dealData.SELLER_LICENSE || ""}
+            />
+          </label>
+          <label>
+            ב״כ הקונים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.buyers_advocate = el)}
+              defaultValue={dealData.BUYER_ADVOCATE || ""}
+            />
+          </label>
+          <label>
+            עו״ד מאמת הקונים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.buyers_imut = el)}
+              defaultValue={dealData.BUYER_IMUT || ""}
+            />
+          </label>
+          <label>
+            מס׳ רישיון מאמת הקונים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.buyers_license = el)}
+              defaultValue={dealData.BUYER_LICENSE || ""}
+            />
+          </label>
+          <label>
+            חלקים מועברים:
+            <input
+              type="text"
+              name="area"
+              ref={(el) => (formRef.current.parts = el)}
+              defaultValue={dealData.PARTS_TO_TRANSFER || ""}
+            />
+          </label>
+        </div>
 
-      {/* Sellers Section */}
-      <div className="sellers-section">
-        <h2>מוכרים</h2>
-        <button
-          type="button"
-          onClick={() => setNumSellers(numSellers + 1)}
-        >
-          הוסף מוכר
-        </button>
-        <button
-          type="button"
-          onClick={() => numSellers > 0 && setNumSellers(numSellers - 1)}
-        >
-          הסר מוכר
-        </button>
-        <table>
-          <thead>
-            <tr>
-              <th>שם משפחה</th>
-              <th>שם פרטי</th>
-              <th>סוג זיהוי</th>
-              <th>מספר זיהוי</th>
-              <th>חלקים</th>
-              <th>חברה</th>
-            </tr>
-          </thead>
-          <tbody>{renderSellers()}</tbody>
-        </table>
-      </div>
+        {/* Sellers Section */}
+        <div className="sellers-section">
+          <h2>מוכרים</h2>
+          <button
+            type="button"
+            onClick={() => setNumSellers(numSellers + 1)}
+          >
+            הוסף מוכר
+          </button>
+          <button
+            type="button"
+            onClick={() => numSellers > 0 && setNumSellers(numSellers - 1)}
+          >
+            הסר מוכר
+          </button>
+          <table>
+            <thead>
+              <tr>
+                <th>שם משפחה</th>
+                <th>שם פרטי</th>
+                <th>סוג זיהוי</th>
+                <th>מספר זיהוי</th>
+                <th>חלקים</th>
+                <th>חברה</th>
+              </tr>
+            </thead>
+            <tbody>{renderSellers()}</tbody>
+          </table>
+        </div>
 
-      {/* Buyers Section */}
-      <div className="buyers-section">
-        <h2>קונים</h2>
-        <button
-          type="button"
-          onClick={() => setNumBuyers(numBuyers + 1)}
-        >
-          הוסף קונה
-        </button>
-        <button
-          type="button"
-          onClick={() => numBuyers > 0 && setNumBuyers(numBuyers - 1)}
-        >
-          הסר קונה
-        </button>
-        <table>
-          <thead>
-            <tr>
-              <th>שם משפחה</th>
-              <th>שם פרטי</th>
-              <th>סוג זיהוי</th>
-              <th>מספר זיהוי</th>
-              <th>חלקים</th>
-              <th>חברה</th>
-            </tr>
-          </thead>
-          <tbody>{renderBuyers()}</tbody>
-        </table>
-      </div>
+        {/* Buyers Section */}
+        <div className="buyers-section">
+          <h2>קונים</h2>
+          <button
+            type="button"
+            onClick={() => setNumBuyers(numBuyers + 1)}
+          >
+            הוסף קונה
+          </button>
+          <button
+            type="button"
+            onClick={() => numBuyers > 0 && setNumBuyers(numBuyers - 1)}
+          >
+            הסר קונה
+          </button>
+          <table>
+            <thead>
+              <tr>
+                <th>שם משפחה</th>
+                <th>שם פרטי</th>
+                <th>סוג זיהוי</th>
+                <th>מספר זיהוי</th>
+                <th>חלקים</th>
+                <th>חברה</th>
+              </tr>
+            </thead>
+            <tbody>{renderBuyers()}</tbody>
+          </table>
+        </div>
 
-      {/* Form Submission */}
-      <button type="submit">{dealId ? "עדכן" : "שמור"}</button>
-    </form>
+        {/* Form Submission */}
+        <button type="submit">{dealId ? "עדכן" : "שמור"}</button>
+      </form>
+    </>
   );
 };
 

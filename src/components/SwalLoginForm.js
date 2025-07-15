@@ -127,6 +127,7 @@ const LoginForm = () => {
         };
 
         showLoginForm(); // Call the login modal immediately on component mount
+        // eslint-disable-next-line
     }, []); // Empty dependency array to run only once
 
     return null; // No render needed
